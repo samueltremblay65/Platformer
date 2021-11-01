@@ -1,0 +1,21 @@
+body {
+    background-color: orange;
+    margin: 0px;
+    overflow: hidden;
+    text-align: center;
+}
+
+#game-container {
+    position: relative;
+    height: 384px;
+    width: 480px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+canvas {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    border: 1px solid;
+}
