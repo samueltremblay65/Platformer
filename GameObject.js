@@ -13,6 +13,12 @@ class GameObject
         this.spriteDict[spriteName].draw(ctx, this.x, this.y);
     }
 
+    move(x, y)
+    {
+        this.x += x;
+        this.y += y;
+    }
+
     getPosition()
     {
         let coordinates = {

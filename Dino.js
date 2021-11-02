@@ -1,9 +1,9 @@
 class Dino
 {
-    constructor(name, age)
+    constructor(config)
     {
-        this.name = name;
-        this.age = age;
+        this.name = config.name;
+        this.age = config.age;
     }
 
     printDino()
