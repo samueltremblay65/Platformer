@@ -483,11 +483,13 @@ function createLevels()
         addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
     }
 
-    addAppleToConfig(5, upY(1), appleConfigs[currentLevel]);
-    addAppleToConfig(6, upY(2), appleConfigs[currentLevel]);
-    addAppleToConfig(7, upY(1), appleConfigs[currentLevel]);
-    addAppleToConfig(8, upY(2), appleConfigs[currentLevel]);
-    addAppleToConfig(9, upY(1), appleConfigs[currentLevel]);
+    addAppleToConfig(4, upY(1), appleConfigs[currentLevel]);
+    addAppleToConfig(5, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(6, upY(3), appleConfigs[currentLevel]);
+    addAppleToConfig(7, upY(4), appleConfigs[currentLevel]);
+    addAppleToConfig(8, upY(3), appleConfigs[currentLevel]);
+    addAppleToConfig(9, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(10, upY(1), appleConfigs[currentLevel]);
 
     // Character positions
     var positions = {x1: 13, y1: upY(1), x2: 1, y2: upY(1)};
@@ -559,11 +561,80 @@ function createLevels()
     addHardTileToConfig(12, upY(3), "metal_tile", levelConfigs[currentLevel]);
     addHardTileToConfig(10, upY(4), "metal_tile", levelConfigs[currentLevel]);
     addHardTileToConfig(8, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(7, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(6, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(5, upY(5), "metal_tile", levelConfigs[currentLevel]);
 
-    addAppleToConfig(7, upY(10), appleConfigs[currentLevel]);
-    addAppleToConfig(9, upY(10), appleConfigs[currentLevel]);
-    addAppleToConfig(11, upY(10), appleConfigs[currentLevel]);
+    addHardTileToConfig(1, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(2, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(3), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(6), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(7), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(5, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(6, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(7, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(9, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(11, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(12, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(13, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(8), "metal_tile", levelConfigs[currentLevel]);
 
+    addHardTileToConfig(1, upY(9), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(1, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(2, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(5, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(6, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(7, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(9, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(11, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(12, upY(10), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(13, upY(10), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(14, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(7), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(6), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(3), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(1), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(14, upY(0), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(1, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(2, upY(6), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(1, upY(8), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(0, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(0, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(0, upY(6), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(0, upY(7), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(0, upY(8), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(4, upY(5), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(4), "metal_tile", levelConfigs[currentLevel]);
+
+    addAppleToConfig(5, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(6, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(7, upY(6), appleConfigs[currentLevel]);
+
+    addAppleToConfig(13, upY(9), appleConfigs[currentLevel]);
+    addAppleToConfig(12, upY(9), appleConfigs[currentLevel]);
+    addAppleToConfig(11, upY(9), appleConfigs[currentLevel]);
+
+    addAppleToConfig(4, upY(11), appleConfigs[currentLevel]);
+    addAppleToConfig(5, upY(11), appleConfigs[currentLevel]);
+    addAppleToConfig(6, upY(11), appleConfigs[currentLevel]);
+    addAppleToConfig(0, upY(9), appleConfigs[currentLevel]);
 
     // Character positions
     var positions = {x1: 3, y1: upY(1), x2: 2, y2: upY(1)};
@@ -597,7 +668,7 @@ function setNextLevel()
 var playing = true;
 
 createLevels();
-setLevel(2);
+setLevel(0);
 
 // Game loop
 setInterval(() => {
