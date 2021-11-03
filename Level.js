@@ -7,6 +7,13 @@ class Level
         this.apples = []
     }
 
+    clearLevel()
+    {
+        this.hardTiles = []
+        this.softTiles = []
+        this.apples = []
+    }
+
     addHardTile(x_val, y_val)
     {
         this.hardTiles.push({x: x_val, y: y_val});
@@ -24,5 +31,18 @@ class Level
             }
         }
         return false;
+    }
+
+    getNumberApples()
+    {
+        var number = 0;
+        for(var i = 0; i < this.apples.length; i++)
+        {
+            if(this.apples[i].visible)
+            {
+                number++;
+            }
+        }
+        return number;
     }
 }

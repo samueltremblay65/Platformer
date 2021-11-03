@@ -3,6 +3,9 @@ let ctx = canvas.getContext("2d");
 
 // Level
 var level = new Level();
+var currentConfig;
+var currentLevel = 0;
+var num_levels = 0;
 
 // Canvas size in tiles
 const canvas_width = 15;
@@ -45,11 +48,16 @@ function addHardTileToConfig(x, y, texture, levelConfig)
     levelConfig.push({x: x, y: y, texture: texture});
 }
 
-function setLevelFromConfig(levelConfig)
+function setLevelFromConfig(levelConfig, appleConfig)
 {
     levelConfig.forEach(element => {
         level.addHardTile(element.x, element.y);
     });
+
+    appleConfig.forEach(element => {
+        addApple(element.x, element.y, level);
+    });
+
 }
 
 function drawHardTilesFromConfig(levelConfig)
@@ -85,7 +93,6 @@ function drawApples()
     level.apples.forEach(element => {
         if(element.currentSprite == "collected")
         {
-
             if(element.collected_state == null)
             {
                 element.collected_state = 0;
@@ -111,6 +118,11 @@ function addApple(x, y, level)
     level.apples.push(new GameObject(apple_config, level));
 }
 
+function addAppleToConfig(x, y, appleConfig)
+{
+    appleConfig.push({x:x, y:y});
+}
+
 // Check if gameObject is on a hard tile
 function onHardTile(gameObject, level_ref)
 {
@@ -130,24 +142,28 @@ function onHardTile(gameObject, level_ref)
 // collisions with apples
 function playerAppleCollisions()
 {
+    var flag = false;
     level.apples.forEach(element => {
         // check player1
         if(!element.visible)
         {
             return;
         }
-        if(collision(element.getHitBox(), character1.getHitBox()))
+        if(collision(element.getHitBox(), player1.character.getHitBox()))
         {
             apples_collected++;
             element.currentSprite = "collected";
+            flag = true;
         }
         // check player2
-        if(collision(element.getHitBox(), character2.getHitBox()))
+        if(collision(element.getHitBox(), player2.character.getHitBox()))
         {
             apples_collected++;
             element.currentSprite = "collected";
+            flag = true;
         }
     });
+    return flag;
 }
 
 // Player 1 sprite config
@@ -251,16 +267,24 @@ var character2_config = {
     x:32*1, y: 32*(canvas_height-2), spriteDict: {"idle": character2_idle_sprite, "run_right": character2_run_right_sprite, "jump": character2_jump_sprite, "run_left": character2_run_left_sprite, "jump_left": character2_jump_left_sprite, "idle_left": character2_idle_left_sprite} 
 }
 
+// Making the characters for each player 
 let character1 = new GameObject(character1_config, level);
-character1['speed'] = 6;
 
 let character2 = new GameObject(character2_config, level);
-character2['speed'] = 4;
 
-// Floor configuration
-var levelConfig1 = [
+// Floor and apple configurations
+
+var levelConfigs = [
 
 ];
+
+var appleConfigs = [
+
+]
+
+var characterPositions = [
+
+]
 
 // Arrow control
 
@@ -270,12 +294,14 @@ const gravity_path = [1, 2, 3, 4, 5];
 
 var player1_config = {
     grav_constant: 3,
-    speed: 6
+    speed: 6,
+    character: character1
 }
 
 var player2_config = {
     grav_constant: 5,
-    speed: 4
+    speed: 4,
+    character: character2
 }
 
 var player1 = new Player(player1_config);
@@ -368,12 +394,12 @@ function checkKeyUp(e) {
     }
 }
 
-function characterMovement1()
+function characterMovement(player)
 {
     var animation_name = "idle";
-    if(player1.leftPressed && player1.rightPressed)
+    if(player.leftPressed && player.rightPressed)
     {
-        if(character1.lastPressed)
+        if(player.character.lastPressed)
         {
             animation_name = "idle";
         }
@@ -382,19 +408,19 @@ function characterMovement1()
             animation_name = "idle_left";
         }
     }
-    else if(player1.leftPressed)
+    else if(player.leftPressed)
     {
-        character1.move(character1['speed'] * -1, 0);
+        player.character.move(player.speed * -1, 0);
         animation_name = "run_left";
     }
-    else if(player1.rightPressed)
+    else if(player.rightPressed)
     {
-        character1.move(character1['speed'], 0);
+        player.character.move(player.speed, 0);
         animation_name = "run_right"
     }
     else
     {
-        if(player1.lastPressed)
+        if(player.lastPressed)
         {
             animation_name = "idle";
         }
@@ -403,16 +429,16 @@ function characterMovement1()
             animation_name = "idle_left";
         }
     }
-    if(player1.jump)
+    if(player.jump)
     {
-        character1.move(0, player1.grav_constant * jump_path[player1.jump_state]);
-        player1.jump_state++;
-        if(player1.jump_state == 8)
+        player.character.move(0, player.grav_constant * jump_path[player.jump_state]);
+        player.jump_state++;
+        if(player.jump_state == 8)
         {
-            player1.jump = false;
-            player1.jump_state = 0;
+            player.jump = false;
+            player.jump_state = 0;
         }
-        if(player1.lastPressed)
+        if(player.lastPressed)
         {
             animation_name = "jump";
         }
@@ -421,139 +447,196 @@ function characterMovement1()
             animation_name = "jump_left";
         }
     }
-    if(!onHardTile(character1, level) && !player1.jump)
+    if(!onHardTile(player.character, level) && !player.jump)
     {
-        character1.move(0, gravity_path[player1.gravity_state] * player1.grav_constant);
-        if(player1.gravity_state != gravity_path.length - 1)
-            player1.gravity_state++;
-        player1.grounded = false;
+        player.character.move(0, gravity_path[player.gravity_state] * player.grav_constant);
+        if(player.gravity_state != gravity_path.length - 1)
+            player.gravity_state++;
+        player.grounded = false;
     }
-    if(onHardTile(character1, level))
+    if(onHardTile(player.character, level))
     {
-        player1.grounded = true;
-        player1.gravity_state = 0;
+        player.grounded = true;
+        player.gravity_state = 0;
     }
 
-    drawGameObject(character1, animation_name);
+    drawGameObject(player.character, animation_name);
 }
-
-function characterMovement2()
-{
-    var animation_name = "idle";
-    if(player2.leftPressed && player2.rightPressed)
-    {
-        if(character2.lastPressed)
-        {
-            animation_name = "idle";
-        }
-        else
-        {
-            animation_name = "idle_left";
-        }
-    }
-    else if(player2.leftPressed)
-    {
-        character2.move(character2['speed'] * -1, 0);
-        animation_name = "run_left";
-    }
-    else if(player2.rightPressed)
-    {
-        character2.move(character2['speed'], 0);
-        animation_name = "run_right"
-    }
-    else
-    {
-        if(player2.lastPressed)
-        {
-            animation_name = "idle";
-        }
-        else
-        {
-            animation_name = "idle_left";
-        }
-    }
-    if(player2.jump)
-    {
-        character2.move(0, player2.grav_constant * jump_path[player2.jump_state]);
-        player2.jump_state++;
-        if(player2.jump_state == 8)
-        {
-            player2.jump = false;
-            player2.jump_state = 0;
-        }
-        if(player2.lastPressed)
-        {
-            animation_name = "jump";
-        }
-        else
-        {
-            animation_name = "jump_left";
-        }
-    }
-    if(!onHardTile(character2, level) && !player2.jump)
-    {
-        character2.move(0, gravity_path[player2.gravity_state] * player2.grav_constant);
-        if(player2.gravity_state != gravity_path.length - 1)
-            player2.gravity_state++;
-        player2.grounded = false;
-    }
-    if(onHardTile(character2, level))
-    {
-        player2.grounded = true;
-        player2.gravity_state = 0;
-    }
-
-    drawGameObject(character2, animation_name);
-}
-
-
-// Adding tiles to level
-
-// Ground Floor
-for(var i = 0; i < canvas_width; i++)
-{
-    if(i == 9 || i == 10)
-    {
-
-    }
-    else
-    {
-        addHardTileToConfig(i, canvas_height-1, "ground", levelConfig1);
-    }
-}
-
-// Platforms
 
 function upY(downY)
 {
     return canvas_height - downY - 1;
 }
-addHardTileToConfig(5, upY(2), "metal_tile", levelConfig1);
-addHardTileToConfig(6, upY(2), "metal_tile", levelConfig1);
-addHardTileToConfig(4, upY(4), "metal_tile", levelConfig1);
-addHardTileToConfig(3, upY(4), "metal_tile", levelConfig1);
 
-addApple(5, upY(3), level);
-addApple(6, upY(3), level);
+function createLevels()
+{
+    // Making level 1
 
-addApple(11, upY(1), level);
-addApple(12, upY(1), level);
+    currentLevel = 0;
+    emptyArray = [];
+    emptyAppleArray = [];
 
-addApple(4, upY(6), level);
-addApple(3, upY(6), level);
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+    for(var i = 0; i < canvas_width; i++)
+    {
+        addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+    }
 
-setLevelFromConfig(levelConfig1);
+    addAppleToConfig(5, upY(1), appleConfigs[currentLevel]);
+    addAppleToConfig(6, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(7, upY(1), appleConfigs[currentLevel]);
+    addAppleToConfig(8, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(9, upY(1), appleConfigs[currentLevel]);
 
+    // Character positions
+    var positions = {x1: 13, y1: upY(1), x2: 1, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+    // Making level 2
+
+    currentLevel = 1;
+
+    emptyArray = [];
+    emptyAppleArray = [];
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        if(i == 9 || i == 10)
+        {
+
+        }
+        else
+        {
+            addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+        }
+    }
+
+    addHardTileToConfig(5, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(6, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(3, upY(4), "metal_tile", levelConfigs[currentLevel]);
+
+    addAppleToConfig(5, upY(3), appleConfigs[currentLevel]);
+    addAppleToConfig(6, upY(3), appleConfigs[currentLevel]);
+
+    addAppleToConfig(11, upY(1), appleConfigs[currentLevel]);
+    addAppleToConfig(12, upY(1), appleConfigs[currentLevel]);
+
+    addAppleToConfig(4, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(3, upY(6), appleConfigs[currentLevel]);
+
+    var positions = {x1: 3, y1: upY(1), x2: 2, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+
+    // Level 3
+    currentLevel = 2;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        if(i == 5 || i == 6)
+        {
+
+        }
+        else
+        {
+            addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+        }
+    }
+
+    addHardTileToConfig(8, upY(1), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(12, upY(3), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(5), "metal_tile", levelConfigs[currentLevel]);
+
+    addAppleToConfig(7, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(9, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(11, upY(10), appleConfigs[currentLevel]);
+
+
+    // Character positions
+    var positions = {x1: 3, y1: upY(1), x2: 2, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+}
+
+function setLevel(levelNumber)
+{
+    currentLevel = levelNumber;
+    setLevelFromConfig(levelConfigs[levelNumber], appleConfigs[levelNumber]);
+    var positions = characterPositions[levelNumber];
+    player1.character.x = positions.x1 * 32;
+    player1.character.y = positions.y1 * 32;
+    player2.character.x = positions.x2 * 32;
+    player2.character.y = positions.y2 * 32;
+}
+
+function setNextLevel()
+{
+    currentLevel++;
+    if(currentLevel == num_levels)
+    {
+        console.log("You win!");
+        currentLevel = 0;
+    }
+    setLevel(currentLevel);
+}
+
+var playing = true;
+
+createLevels();
+setLevel(2);
 
 // Game loop
 setInterval(() => {
-    clearCanvas();
-    drawBackground();
-    drawHardTilesFromConfig(levelConfig1);
-    drawApples();
-    characterMovement1();
-    characterMovement2();
-    playerAppleCollisions();
+    if(playing)
+    {
+        clearCanvas();
+        drawBackground();
+        drawHardTilesFromConfig(levelConfigs[currentLevel]);
+        drawApples();
+        characterMovement(player1);
+        characterMovement(player2);
+        playerAppleCollisions();
+    }
+    else
+    {
+
+    }
 }, 50);
 
+// Slow interval
+setInterval(() => {
+    if(level.getNumberApples() == 0)
+    {
+        playing = false;
 
+        // Clear level
+        level.clearLevel();
+
+        // Place characters
+        player1.character.x = 32 * 2;
+        player1.character.y = 32 * upY(1);
+
+        player2.character.x = 32 * 3;
+        player2.character.y = 32 * upY(1);
+
+        // Set next level
+        setNextLevel();
+
+        // Restart main game loop
+        playing = true;
+    }
+}, 500);

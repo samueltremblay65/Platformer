@@ -15,7 +15,6 @@ class Sprite
         this.slowness = 1;
         if(config.slowness != null)
         {
-            console.log("creating sprite with different slowness");
             this.slowness = config.slowness;
         }
         if(config.random_phase == true)

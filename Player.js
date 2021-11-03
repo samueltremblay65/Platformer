@@ -12,6 +12,8 @@ class Player
         this.jump_states = 13;
         this.gravity_state = 0;
         this.speed = config.speed;
+
+        this.character = config.character;
     }
 
 }

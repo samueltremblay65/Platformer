@@ -17,7 +17,7 @@ class GameObject
         {
             this.leftMargin = 10;
             this.rightMargin = 10;
-            this.topMargin = 6;
+            this.topMargin = 10;
             this.bottomMargin = -1;
         }
         else
