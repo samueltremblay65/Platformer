@@ -10,6 +10,18 @@ class Sprite
         }
         this.num_states = config.num_states;
         this.currentState = 0;
+
+        this.substate = 0;
+        this.slowness = 1;
+        if(config.slowness != null)
+        {
+            console.log("creating sprite with different slowness");
+            this.slowness = config.slowness;
+        }
+        if(config.random_phase == true)
+        {
+            this.currentState = Math.floor( Math.random() * this.num_states );
+        }
     }
 
     reset()
@@ -26,7 +38,12 @@ class Sprite
             32, 32
         );
 
-        this.currentState++;
+        this.substate++;
+        if(this.substate == this.slowness)
+        {
+            this.substate = 0;
+            this.currentState++;
+        }
         if(this.currentState == this.num_states)
         {
             this.currentState = 0;
