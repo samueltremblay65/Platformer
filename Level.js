@@ -6,6 +6,8 @@ class Level
         this.specialTiles = []
         this.softTiles = []
         this.apples = []
+        this.movableTiles = []
+        this.numberMovableTiles = 0;
 
         this.showAll = false;
     }
@@ -21,15 +23,20 @@ class Level
     {
         if(texture == "special")
         {
-            this.specialTiles.push({x: x_val, y: y_val});
+            this.specialTiles.push({x: x_val, y: y_val - 1});
+            this.hardTiles.push({x: x_val, y: y_val, hidden: false, texture: texture});
         }
-        if(texture == "hidden")
+        else if(texture == "hidden")
         {
-            this.hardTiles.push({x: x_val, y: y_val, hidden: true});
+            this.hardTiles.push({x: x_val, y: y_val, hidden: true, texture: "hidden"});
+        }
+        else if(texture == "movable")
+        {
+            this.movableTiles.push({x: x_val * 32, y: y_val * 32});
         }
         else
         {
-            this.hardTiles.push({x: x_val, y: y_val, hidden: false});
+            this.hardTiles.push({x: x_val, y: y_val, hidden: false, texture: texture});
         }
     }
 
@@ -37,7 +44,7 @@ class Level
     {
         for(var i = 0; i < this.specialTiles.length; i++)
         {
-            if(x == this.specialTiles[i].x && y + 1 == this.specialTiles[i].y)
+            if(x == this.specialTiles[i].x && y == this.specialTiles[i].y)
             {
                 return true;
             }

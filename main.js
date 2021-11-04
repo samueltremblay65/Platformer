@@ -59,7 +59,81 @@ function setLevelFromConfig(levelConfig, appleConfig)
     });
 }
 
-function drawHardTilesFromConfig(levelConfig, showAll)
+function drawLevel()
+{
+    // Draw normal hard tiles
+    for(var i = 0; i < level.hardTiles.length; i++)
+    {
+        var image;
+        var texture = level.hardTiles[i].texture;
+        var cut_x, cut_y;
+        if(texture == "metal_tile")
+        {
+            image = terrain;
+            cut_x = 0, cut_y = 0;
+        }
+        else if(texture == "ground")
+        {
+            image = terrain;
+            cut_x = 32*3; 
+            cut_y = 32*2;
+        }
+        else if(texture == 'hidden' )
+        {
+            if(level.showAll)
+            {
+                ctx.drawImage(
+                    terrain,
+                    0,0,
+                    48, 48,
+                    32*level.hardTiles[i].x, 32*level.hardTiles[i].y,
+                    32, 32
+                );
+                ctx.drawImage(
+                    terrain,
+                    8.5*32, 32*4,
+                    48, 16,
+                    32*level.hardTiles[i].x, 32*level.hardTiles[i].y,
+                    32, 16
+                );
+            }
+            continue;
+        }
+        else if(texture == "special")
+        {
+            image = terrain;
+            cut_x = 0, cut_y = 32*4;
+        }
+        ctx.drawImage(
+            image,
+            cut_x, cut_y,
+            48, 48,
+            32*level.hardTiles[i].x, 32*level.hardTiles[i].y,
+            32, 32
+        );
+    }
+
+    // Draw movable tiles
+    for(var i = 0; i < level.movableTiles.length; i++)
+    {
+        image = terrain;
+        cut_x = 0, cut_y = 2;
+        ctx.drawImage(
+            image,
+            cut_x * 32, cut_y * 32,
+            48, 48,
+            level.movableTiles[i].x, level.movableTiles[i].y,
+            32, 32
+        );
+
+    }
+
+    // Draw apples
+    drawApples();
+}
+
+// Previous way of drawing (from config). We moved to drawing from level object
+/* function drawHardTilesFromConfig(levelConfig, showAll)
 {
     for(var i = 0; i < levelConfig.length; i++)
     {
@@ -103,6 +177,24 @@ function drawHardTilesFromConfig(levelConfig, showAll)
             image = terrain;
             cut_x = 0, cut_y = 32*4;
         }
+        ctx.drawImage(
+            image,
+            cut_x, cut_y,
+            48, 48,
+            32*levelConfig[i].x, 32*levelConfig[i].y,
+            32, 32
+        );
+    }
+} */
+
+function drawMoveableTiles()
+{
+    var image = terrain;
+    var cut_x = 0;
+    var cut_y = 4;
+
+    level.movableTiles.forEach()
+    {
         ctx.drawImage(
             image,
             cut_x, cut_y,
@@ -382,6 +474,10 @@ function checkKey(e) {
        player2.rightPressed = true;
        player2.lastPressed = true;
     }
+    else if (e.keyCode == '32')
+    {
+        resetLevel();
+    }
 }
 
 function checkKeyUp(e) {
@@ -531,6 +627,10 @@ function createLevels()
     {
         addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
     }
+
+    addHardTileToConfig(7, upY(8), "movable", levelConfigs[currentLevel]);
+
+    // Testing movable tiles
 
     addAppleToConfig(4, upY(1), appleConfigs[currentLevel]);
     addAppleToConfig(5, upY(2), appleConfigs[currentLevel]);
@@ -789,6 +889,7 @@ function createLevels()
 
     addAppleToConfig(5, upY(8), appleConfigs[currentLevel]);
     addAppleToConfig(2, upY(8), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(5), appleConfigs[currentLevel]);
 
     // Character positions
     var positions = {x1: 2, y1: upY(1), x2: 1, y2: upY(1)};
@@ -858,7 +959,7 @@ function createLevels()
 
     num_levels++;
 
-    // Making level 6
+    // Making level 7
 
     currentLevel++;
     emptyArray = [];
@@ -937,6 +1038,91 @@ function createLevels()
     characterPositions.push(positions);
 
     num_levels++;
+
+    // Making level 8
+
+    currentLevel++;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+    for(var i = 0; i < canvas_width; i++)
+    {
+        if(i != 5 && i != 6 && i != 10 && !(i >= 9 && i <= 11))
+            addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+    }
+
+    for(var i = 0; i < canvas_height - 1; i++)
+    {
+        addHardTileToConfig(14, i, "metal_tile", levelConfigs[currentLevel]);
+        addHardTileToConfig(0, i, "metal_tile", levelConfigs[currentLevel]);
+    }
+
+    for(var i = 0; i < 8; i++)
+    {
+        addHardTileToConfig(3, i, "metal_tile", levelConfigs[currentLevel]);
+    }
+
+    addHardTileToConfig(13, upY(1), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(4, upY(4), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(5, upY(4), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(6, upY(4), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(7, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(7, upY(3), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(3), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(9, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(11, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(13, upY(7), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(1, upY(2), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(2, upY(4), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(1, upY(6), "metal_tile", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(2, upY(8), "special", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(0), "special", levelConfigs[currentLevel]);
+
+
+    addHardTileToConfig(4, upY(5), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(0), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(9, upY(0), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(11, upY(0), "hidden", levelConfigs[currentLevel]);
+
+    addHardTileToConfig(7, upY(8), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(8, upY(8), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(9, upY(8), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(8), "hidden", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(7), "hidden", levelConfigs[currentLevel]);
+
+    for(var i = 6; i < 14; i++)
+    {
+        if(i == 8)
+        {
+            i = 10;
+        }
+        addHardTileToConfig(i, upY(6), "metal_tile", levelConfigs[currentLevel]);
+    }
+
+    for(var i = 4; i < 14; i++)
+    {
+        addHardTileToConfig(i, upY(11), "metal_tile", levelConfigs[currentLevel]);
+    }
+
+
+    addAppleToConfig(13, upY(8), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(9), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(7, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(10, upY(10), appleConfigs[currentLevel]);
+
+    // Character positions
+    var positions = {x1: 2, y1: upY(1), x2: 1, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
 }
 
 function setLevel(levelNumber)
@@ -961,11 +1147,34 @@ function setNextLevel()
     setLevel(currentLevel);
 }
 
+function resetLevel()
+{
+    playing = false;
+    level.clearLevel();
+    setLevel(currentLevel);
+    playing = true;
+}
+
 var playing = true;
 
 createLevels();
 setLevel(0);
 hideHiddenTiles();
+
+var startTime = new Date();
+
+var endTime;
+
+function end() {
+  endTime = new Date();
+  var timeDiff = endTime - startTime; //in ms
+  // strip the ms
+  timeDiff /= 1000;
+
+  // get seconds 
+  var seconds = Math.round(timeDiff * 10) / 10;
+  console.log(seconds + " seconds");
+}
 
 // Game loop
 setInterval(() => {
@@ -984,8 +1193,7 @@ setInterval(() => {
 
         clearCanvas();
         drawBackground();
-        drawHardTilesFromConfig(levelConfigs[currentLevel], level.showAll);
-        drawApples();
+        drawLevel();
         characterMovement(player1);
         characterMovement(player2);
         playerAppleCollisions();
@@ -1000,17 +1208,14 @@ setInterval(() => {
 setInterval(() => {
     if(level.getNumberApples() == 0)
     {
+        if(currentLevel == num_levels - 1 )
+        {
+            end();
+        }
         playing = false;
 
         // Clear level
         level.clearLevel();
-
-        // Place characters
-        player1.character.x = 32 * 2;
-        player1.character.y = 32 * upY(1);
-
-        player2.character.x = 32 * 3;
-        player2.character.y = 32 * upY(1);
 
         // Set next level
         setNextLevel();
@@ -1018,4 +1223,5 @@ setInterval(() => {
         // Restart main game loop
         playing = true;
     }
+
 }, 500);
