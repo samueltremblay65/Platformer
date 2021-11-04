@@ -55,6 +55,18 @@ class GameObject
         return currentPoints;        
     }
 
+    getCurrentTiles()
+    {
+        var currentPoints = this.getHitBox();
+        var currentTiles = [
+            currentTile(currentPoints[0].x, currentPoints[0].y),
+            currentTile(currentPoints[1].x, currentPoints[1].y),
+            currentTile(currentPoints[2].x, currentPoints[2].y),
+            currentTile(currentPoints[3].x, currentPoints[3].y)
+        ];
+        return currentTiles;
+    }
+
     // This should never be used with both x and y ! Either x or y should be equal to 0
     move(x, y)
     {
