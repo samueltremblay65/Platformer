@@ -17,6 +17,8 @@ class Level
         this.hardTiles = []
         this.softTiles = []
         this.apples = []
+        this.specialTiles = []
+        this.movableTiles = []
     }
 
     addHardTile(x_val, y_val, texture)
@@ -65,8 +67,31 @@ class Level
                 return true;
             }
         }
+
         return false;
     }
+
+    isMovableTile(x, y)
+    {   
+        var flag = false;
+        this.movableTiles.forEach(element => {
+            var points =  [
+                {x: element.x, y: element.y},
+                {x: element.x + 32, y: element.y},
+                {x: element.x, y: element.y + 32},
+                {x: element.x + 32, y: element.y + 32}
+            ];
+
+            if(inRectangle(points, {x: x, y: y}))
+            {
+                flag = true;
+                return;
+            }
+        });
+        return flag;
+    }
+
+
 
     getNumberApples()
     {

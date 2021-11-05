@@ -107,6 +107,21 @@ class GameObject
             }
             else
             {
+                var flag = true;
+                level.movableTiles.forEach(element => {
+                    var points = [
+                        {x: element.x, y: element.y},
+                        {x: element.x + 32, y: element.y},
+                        {x: element.x, y: element.y + 32},
+                        {x: element.x + 32, y: element.y + 32}
+                    ];
+                    if(collision(points, futurePoints))
+                    {
+                        flag = false;
+                        this.x = points[1].x - this.rightMargin;
+                    }
+                });
+                if (flag)
                 this.x += x;
             }
         }
@@ -118,7 +133,22 @@ class GameObject
             }
             else
             {
-                this.x += x;
+                var flag = true;
+                level.movableTiles.forEach(element => {
+                    var points = [
+                        {x: element.x, y: element.y},
+                        {x: element.x + 32, y: element.y},
+                        {x: element.x, y: element.y + 32},
+                        {x: element.x + 32, y: element.y + 32}
+                    ];
+                    if(collision(points, futurePoints))
+                    {
+                        flag = false;
+                        this.x = points[0].x - 32 + this.leftMargin;
+                    }
+                });
+                if (flag)
+                    this.x += x;
             }
         }
 
@@ -131,7 +161,12 @@ class GameObject
             }
             else
             {
-                this.y += y;
+                var flag = true;
+
+                if(flag)
+                {
+                    this.y += y;
+                }
             }
         }
         else if(y > 0)
@@ -142,7 +177,22 @@ class GameObject
             }
             else
             {
-                this.y += y;
+                var flag = true;
+                level.movableTiles.forEach(element => {
+                    var points = [
+                        {x: element.x, y: element.y},
+                        {x: element.x + 32, y: element.y},
+                        {x: element.x, y: element.y + 32},
+                        {x: element.x + 32, y: element.y + 32}
+                    ];
+                    if(collision(points, futurePoints))
+                    {
+                        flag = false;
+                        this.y = points[0].y -32;
+                    }
+                });
+                if (flag)
+                    this.y += y;
             }
         }
     }
