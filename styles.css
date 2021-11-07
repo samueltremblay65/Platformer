@@ -3,7 +3,8 @@ body {
     margin: 0px;
     overflow: hidden;
     text-align: center;
-    font-family: 'Mochiy Pop One', sans-serif;
+    font-family: 'Zen Loop';
+    font-size: large;
 }
 
 #game-container {

@@ -119,6 +119,9 @@ function createLevels()
     addHardTileToConfig(13, upY(8), "metal_tile", levelConfigs[currentLevel]);
     addHardTileToConfig(14, upY(8), "metal_tile", levelConfigs[currentLevel]);
 
+    addHardTileToConfig(11, upY(2), "metal_tile", levelConfigs[currentLevel]);
+    addHardTileToConfig(12, upY(2), "metal_tile", levelConfigs[currentLevel]);
+
     addHardTileToConfig(1, upY(9), "metal_tile", levelConfigs[currentLevel]);
     addHardTileToConfig(1, upY(10), "metal_tile", levelConfigs[currentLevel]);
     addHardTileToConfig(2, upY(10), "metal_tile", levelConfigs[currentLevel]);
@@ -654,9 +657,9 @@ function createLevels2()
 
     addAppleToConfig(8, upY(8), appleConfigs[currentLevel]);
     addAppleToConfig(5, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(11, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(12, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(13, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(11, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(12, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(6), appleConfigs[currentLevel]);
 
     // Character positions
     var positions = {x1: 2, y1: upY(11), x2: 2, y2: upY(1)};
@@ -709,9 +712,9 @@ function createLevels2()
 
     addAppleToConfig(8, upY(8), appleConfigs[currentLevel]);
     addAppleToConfig(5, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(11, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(12, upY(5), appleConfigs[currentLevel]);
-    addAppleToConfig(13, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(11, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(12, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(6), appleConfigs[currentLevel]);
 
     // Character positions
     var positions = {x1: 2, y1: upY(11), x2: 2, y2: upY(1)};
@@ -719,4 +722,138 @@ function createLevels2()
 
     num_levels++;
 
+    // Making level 12
+
+    currentLevel++;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        if(i != 4 && i != 10)
+            addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+    }
+
+    for(var i = 1; i < canvas_height + 2; i++)
+    {
+        addMetalTile(0, i);
+        addMetalTile(7, i);
+        addMetalTile(14, i);
+    }
+
+    for(var i = 0; i < 6; i++)
+    {
+        addMetalTile(i + 7, 10);
+        addMetalTile(canvas_width - 1 - i, 8);
+        addMetalTile(i + 7, 6);
+        addMetalTile(canvas_width - 1 - i, 4);
+        addMetalTile(i + 7, 2);
+    }
+
+    addHardTileToConfig(10, upY(0), "special", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(1), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(1), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(2), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(3), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(0), "hidden", levelConfigs[currentLevel]);
+
+    addMetalTile(4, 4);
+    addMetalTile(5, 4);
+    addMetalTile(6, 4);
+    addMetalTile(2, 2);
+    addMetalTile(2, 6);
+    addMetalTile(4, 8);
+    addMetalTile(5, 8);
+    addMetalTile(6, 8);
+
+    addAppleToConfig(8, upY(8), appleConfigs[currentLevel]);
+
+    addAppleToConfig(5, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(5, upY(9), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(8, upY(4), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(3), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(7), appleConfigs[currentLevel]);
+
+    // Character positions
+    var positions = {x1: 8, y1: upY(11), x2: 6, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+
+    // Making level 13
+
+    currentLevel++;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        if(i != 4 && i != 10)
+            addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+    }
+
+    for(var i = 1; i < canvas_height + 2; i++)
+    {
+        addMetalTile(0, i);
+        addMetalTile(7, i);
+        addMetalTile(14, i);
+    }
+
+    for(var i = 0; i < 6; i++)
+    {
+        addMetalTile(i + 7, 10);
+        addMetalTile(canvas_width - 1 - i, 8);
+        addMetalTile(i + 7, 6);
+        addMetalTile(canvas_width - 1 - i, 4);
+        addMetalTile(i + 7, 2);
+    }
+
+    addHardTileToConfig(10, upY(0), "special", levelConfigs[currentLevel]);
+    addHardTileToConfig(10, upY(1), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(1), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(2), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(3), "movable", levelConfigs[currentLevel]);
+    addHardTileToConfig(4, upY(0), "hidden", levelConfigs[currentLevel]);
+
+    addMetalTile(4, 4);
+    addMetalTile(5, 4);
+    addMetalTile(6, 4);
+    addMetalTile(2, 2);
+    addMetalTile(2, 6);
+    addMetalTile(4, 8);
+    addMetalTile(5, 8);
+    addMetalTile(6, 8);
+
+    addAppleToConfig(8, upY(8), appleConfigs[currentLevel]);
+
+    addAppleToConfig(5, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(5, upY(9), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(6), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(8, upY(4), appleConfigs[currentLevel]);
+    addAppleToConfig(13, upY(2), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(3), appleConfigs[currentLevel]);
+    addAppleToConfig(2, upY(7), appleConfigs[currentLevel]);
+
+    // Character positions
+    var positions = {x1: 8, y1: upY(11), x2: 6, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+
+
+}
+
+function addMetalTile(x, y)
+{
+    addHardTileToConfig(x, upY(y), "metal_tile", levelConfigs[currentLevel]);
 }

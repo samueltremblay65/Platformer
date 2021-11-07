@@ -118,11 +118,11 @@ class GameObject
                     if(collision(points, futurePoints))
                     {
                         flag = false;
-                        this.x = points[1].x - this.rightMargin;
+                        this.x = points[1].x - this.rightMargin + 1;
                     }
                 });
                 if (flag)
-                this.x += x;
+                    this.x += x;
             }
         }
         else if(x > 0)
@@ -197,6 +197,7 @@ class GameObject
         }
     }
 }
+
 
 function currentTile(x, y)
 {

@@ -284,9 +284,9 @@ function movableTileCollisions()
 {
     level.movableTiles.forEach(element => {
         var points = [
-            {x: element.x - 2, y: element.y},
+            {x: element.x, y: element.y},
             {x: element.x + 34, y: element.y},
-            {x: element.x - 2, y: element.y + 32},
+            {x: element.x, y: element.y + 32},
             {x: element.x + 34, y: element.y + 32}
         ];
 
@@ -664,10 +664,6 @@ function onMovableTile(player)
 function onSpecialTile(player)
 {
     var points = player.character.getCurrentTiles();
-    if(!player.grounded)
-    {
-        return false;
-    }
     if(level.isSpecialTile(points[2].x, points[2].y) || level.isSpecialTile(points[3].x, points[3].y))
     {
         return true;
@@ -742,7 +738,7 @@ var playing = true;
 createLevels();
 createLevels2();
 
-setLevel(11);
+setLevel(12);
 hideHiddenTiles();
 
 // Starting timer
