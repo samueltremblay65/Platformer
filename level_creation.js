@@ -851,9 +851,101 @@ function createLevels2()
     num_levels++;
 
 
+    // Making level 13
+
+    currentLevel++;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+        if(i != 2 && i != 12)
+            addMetalTile(i, 6);
+    }
+
+    for(var i = 1; i < canvas_height; i++)
+    {
+        addMetalTile(0, i);
+        addMetalTile(14,i);
+    }
+
+    addMetalTile(9,7);
+    addOtherTile(12, 6, "special");
+    addOtherTile(12, 7, "movable");
+    addOtherTile(6, 7, "hidden");
+    addOtherTile(5, 7, "movable");
+
+    addAppleToConfig(9, upY(10), appleConfigs[currentLevel]);
+    addAppleToConfig(10, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(11, upY(5), appleConfigs[currentLevel]);
+    addAppleToConfig(12, upY(5), appleConfigs[currentLevel]);
+
+    // Character positions
+    var positions = {x1: 3, y1: upY(7), x2: 6, y2: upY(1)};
+    characterPositions.push(positions);
+
+    num_levels++;
+    currentLevel++;
+    emptyArray = [];
+    emptyAppleArray = [];
+
+    levelConfigs.push(emptyArray);
+    appleConfigs.push(emptyAppleArray);
+
+    for(var i = 0; i < canvas_width; i++)
+    {
+        addHardTileToConfig(i, canvas_height-1, "ground", levelConfigs[currentLevel]);
+    }
+
+    var positions = {x1: 2, y1: upY(1), x2: 12, y2: upY(1)};
+    characterPositions.push(positions);
+}
+
+function createLastLevel()
+{
+    addAppleToConfig(11, upY(15), appleConfigs[currentLevel]);
 }
 
 function addMetalTile(x, y)
 {
     addHardTileToConfig(x, upY(y), "metal_tile", levelConfigs[currentLevel]);
+}
+
+function addOtherTile(x, y, type)
+{
+    addHardTileToConfig(x, upY(y), type, levelConfigs[currentLevel]);
+}
+
+function fillLevelText()
+{
+    // Level 0
+    levelText.push("Use the arrows and the wasd keys to move the characters. Collect all the apples to pass to move to the next level !");
+    levelText.push("These lads have different skills ! They will have to work together to collect all the apples !");
+    levelText.push("");
+    levelText.push("This blue tile is special ! Hop on it to see what happens !");
+    levelText.push("");
+
+    // Level 5
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
+    levelText.push("The wooden crates can be moved ... If you're strong enough to move them");
+    levelText.push("");
+
+    // Level 10
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
+
+    // Level 15
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
+    levelText.push("");
 }

@@ -21,6 +21,9 @@ terrain.src = "assets/Terrain/Terrain (16x16).png"
 // counter for apples collected
 let apples_collected = 0;
 
+// Text strings for each level
+let levelText = [];
+
 // Functions for drawing basic game
 function drawGameObject(gameObject, spriteName)
 {
@@ -709,19 +712,26 @@ function setLevel(levelNumber)
     player1.character.y = positions.y1 * 32;
     player2.character.x = positions.x2 * 32;
     player2.character.y = positions.y2 * 32;
+
+    if(levelText[currentLevel] != null && levelText[currentLevel] != "")
+    {
+        document.getElementById("instruction_box").style.display = "block";
+        document.getElementById("instruction_box").innerHTML = levelText[currentLevel];
+    }
+    else
+        document.getElementById("instruction_box").style.display = "none";
+
 }
 
 function setNextLevel()
 {
     currentLevel++;
+    setLevel(currentLevel);
     if(currentLevel == num_levels)
     {
-        document.getElementById("win_message").innerHTML = "You win ! Final time : " + end() + " seconds !";
-        document.getElementById("win_message").style.display = "block";
-
-        currentLevel = 0;
+        document.getElementById("instruction_box").style.display = "block";
+        document.getElementById("instruction_box").innerHTML = "Congratulations ! You win ! Final time : " + end() + " seconds";
     }
-    setLevel(currentLevel);
 }
 
 function resetLevel()
@@ -737,8 +747,10 @@ var playing = true;
 // Creating level configs
 createLevels();
 createLevels2();
+createLastLevel();
+fillLevelText();
 
-setLevel(12);
+setLevel(0);
 hideHiddenTiles();
 
 // Starting timer
